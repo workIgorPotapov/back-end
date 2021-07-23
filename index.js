@@ -25,9 +25,9 @@ const done = array.filter((item) => { return item.done !== false });
 const undone = array.filter((item) => { return item.done !== true });
 
 const allAsc = [...array].sort((a, b) => {
-  if (a.id < b.id) {
+  if (a.time < b.time) {
     return -1;
-  } else if (a.id > b.id) {
+  } else if (a.time > b.time) {
     return 1;
   } else {
     return 0;
@@ -35,9 +35,9 @@ const allAsc = [...array].sort((a, b) => {
 });
 
 const allDesc = [...array].sort((a, b) => {
-  if (a.id > b.id) {
+  if (a.time > b.time) {
     return -1;
-  } else if (a.id < b.id) {
+  } else if (a.time < b.time) {
     return 1;
   } else {
     return 0;
@@ -45,9 +45,9 @@ const allDesc = [...array].sort((a, b) => {
 });
 
 const doneAsc = [...done].sort((a, b) => {
-  if (a.id < b.id) {
+  if (a.time < b.time) {
     return -1;
-  } else if (a.id > b.id) {
+  } else if (a.time > b.time) {
     return 1;
   } else {
     return 0;
@@ -55,9 +55,9 @@ const doneAsc = [...done].sort((a, b) => {
 });
 
 const doneDesc = [...done].sort((a, b) => {
-  if (a.id > b.id) {
+  if (a.time > b.time) {
     return -1;
-  } else if (a.id < b.id) {
+  } else if (a.time < b.time) {
     return 1;
   } else {
     return 0;
@@ -65,9 +65,9 @@ const doneDesc = [...done].sort((a, b) => {
 });
 
 const undoneAsc = [...undone].sort((a, b) => {
-  if (a.id < b.id) {
+  if (a.time < b.time) {
     return -1;
-  } else if (a.id > b.id) {
+  } else if (a.time > b.time) {
     return 1;
   } else {
     return 0;
@@ -75,9 +75,9 @@ const undoneAsc = [...undone].sort((a, b) => {
 });
 
 const undoneDesc = [...undone].sort((a, b) => {
-  if (a.id > b.id) {
+  if (a.time > b.time) {
     return -1;
-  } else if (a.id < b.id) {
+  } else if (a.time < b.time) {
     return 1;
   } else {
     return 0;
@@ -92,7 +92,7 @@ app.post('/', (req, res) => {
   const file = fs.readFileSync('database.json');
   const array = JSON.parse(file);
   const item = req.body;
-  item.id = array.length;
+  item.id = Math.random().toString().substr(2,5);
   item.done = false;
   item.time = new Date();
   array.push(item);
@@ -105,7 +105,7 @@ app.delete('/:del', (req, res) => {
   const {del} = req.params;
   const file = fs.readFileSync('database.json');
   const array = JSON.parse(file);
-  const removedArray = array.filter((item) => item.id !== (+del));
+  const removedArray = array.filter((item) => item.id !== del);
   const jsonItem = JSON.stringify(removedArray);
   fs.writeFileSync('database.json', jsonItem, 'utf8');
   res.status(200);
