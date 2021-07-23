@@ -1,6 +1,7 @@
 import express, { json } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 const app = express();
 
@@ -92,7 +93,8 @@ app.post('/', (req, res) => {
   const file = fs.readFileSync('database.json');
   const array = JSON.parse(file);
   const item = req.body;
-  item.id = Math.random().toString().substr(2,5);
+  // item.id = Math.random().toString().substr(2,5);
+  item.id = uuidv4();
   item.done = false;
   item.time = new Date();
   array.push(item);
