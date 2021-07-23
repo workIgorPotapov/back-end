@@ -84,58 +84,13 @@ const reqHandler = (filter, order) => {
 //     }
 //   });
 // }
-
 app.listen(PORT, () => {
   console.log(`Server has been started on port ${PORT}`)
 });
 
-app.post('/', (req, res) => {
-  const file = fs.readFileSync('database.json');
-  const array = JSON.parse(file);
-  const item = req.body;
-  item.id = uuidv4();
-  item.done = false;
-  item.time = new Date();
-  array.push(item);
-  res.status(201).json(item);
-  const jsonItem = JSON.stringify(array);
-  fs.writeFileSync('database.json', jsonItem, 'utf8');
-});
+app.route('/')
 
-app.delete('/:id', (req, res) => {
-  const {id} = req.params;
-  const file = fs.readFileSync('database.json');
-  const array = JSON.parse(file);
-  const removedArray = array.filter((item) => item.id !== id);
-  const jsonItem = JSON.stringify(removedArray);
-  fs.writeFileSync('database.json', jsonItem, 'utf8');
-  res.status(200);
-  console.log(id)
-  console.log(removedArray)
-});
-
-app.patch('/:id', (req, res) => {
-  const {id} = req.params;
-  const file = fs.readFileSync('database.json');
-  const array = JSON.parse(file);
-  const changedItem = req.body;
-  const changedArray = array.map((item) => {
-    if (item.id === id) {
-      for (let key in changedItem) {
-        item[key] = changedItem[key];
-        return item;
-      }
-    } else {
-      return item;
-    }
-  });
-  const jsonItem = JSON.stringify(changedArray);
-  fs.writeFileSync('database.json', jsonItem, 'utf8');
-  res.status(200);
-  console.log(changedArray)
-});
-
-app.get('/', (req, res) => {
+.get((req, res) => {
 
   const {filterBy, order} = req.query;
 
@@ -187,4 +142,52 @@ app.get('/', (req, res) => {
   //   res.send(jsonItem);
   // }
 
+})
+
+.post((req, res) => {
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
+  const item = req.body;
+  item.id = uuidv4();
+  item.done = false;
+  item.time = new Date();
+  array.push(item);
+  res.status(201).json(item);
+  const jsonItem = JSON.stringify(array);
+  fs.writeFileSync('database.json', jsonItem, 'utf8');
+});
+
+app.route('/:id')
+
+.delete((req, res) => {
+  const {id} = req.params;
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
+  const removedArray = array.filter((item) => item.id !== id);
+  const jsonItem = JSON.stringify(removedArray);
+  fs.writeFileSync('database.json', jsonItem, 'utf8');
+  res.status(200);
+  console.log(id)
+  console.log(removedArray)
+})
+
+.patch((req, res) => {
+  const {id} = req.params;
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
+  const changedItem = req.body;
+  const changedArray = array.map((item) => {
+    if (item.id === id) {
+      for (let key in changedItem) {
+        item[key] = changedItem[key];
+        return item;
+      }
+    } else {
+      return item;
+    }
+  });
+  const jsonItem = JSON.stringify(changedArray);
+  fs.writeFileSync('database.json', jsonItem, 'utf8');
+  res.status(200);
+  console.log(changedArray)
 });
