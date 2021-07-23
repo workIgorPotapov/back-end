@@ -11,23 +11,87 @@ const __dirname = path.resolve();
 const PORT = 5000;
 
 
-// сделать проверку на наличие файла и если его нет то создавать УЖЕ СО СКОБКАМИ
-// https://flaviocopes.com/how-to-check-if-file-exists-node/
-const file = fs.readFileSync('database.json', 'utf8');
-  if (file.length === 0) {
-    fs.writeFileSync('database.json', JSON.stringify([]), 'utf8');
+if (!fs.existsSync('database.json')) {
+  fs.writeFileSync('database.json', JSON.stringify([]));
+  // const file = fs.readFileSync('database.json', 'utf8');
+  // if (file.length === 0) {
+  //  fs.writeFileSync('database.json', JSON.stringify([]), 'utf8');
+//   }
+}
+
+const file = fs.readFileSync('database.json');
+const array = JSON.parse(file);
+const done = array.filter((item) => { return item.done !== false });
+const undone = array.filter((item) => { return item.done !== true });
+
+const allAsc = [...array].sort((a, b) => {
+  if (a.id < b.id) {
+    return -1;
+  } else if (a.id > b.id) {
+    return 1;
+  } else {
+    return 0;
   }
+});
+
+const allDesc = [...array].sort((a, b) => {
+  if (a.id > b.id) {
+    return -1;
+  } else if (a.id < b.id) {
+    return 1;
+  } else {
+    return 0;
+  }
+});
+
+const doneAsc = [...done].sort((a, b) => {
+  if (a.id < b.id) {
+    return -1;
+  } else if (a.id > b.id) {
+    return 1;
+  } else {
+    return 0;
+  }
+});
+
+const doneDesc = [...done].sort((a, b) => {
+  if (a.id > b.id) {
+    return -1;
+  } else if (a.id < b.id) {
+    return 1;
+  } else {
+    return 0;
+  }
+});
+
+const undoneAsc = [...undone].sort((a, b) => {
+  if (a.id < b.id) {
+    return -1;
+  } else if (a.id > b.id) {
+    return 1;
+  } else {
+    return 0;
+  }
+});
+
+const undoneDesc = [...undone].sort((a, b) => {
+  if (a.id > b.id) {
+    return -1;
+  } else if (a.id < b.id) {
+    return 1;
+  } else {
+    return 0;
+  }
+});
 
 app.listen(PORT, () => {
-  console.log('1')
+  console.log(`Server has been started on port ${PORT}`)
 });
 
 app.post('/', (req, res) => {
-  const file = fs.readFileSync('database.json', 'utf8');
-  const array = JSON.parse(file);
-  console.log(array);
   const item = req.body;
   item.id = array.length;
+  item.done = false;
   item.time = new Date();
   array.push(item);
   res.status(201).json(item);
@@ -36,5 +100,87 @@ app.post('/', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'database.json'));
+  // res.sendFile(path.resolve(__dirname, 'database.json'));
+  const {filterBy, order} = req.query;
+  if (order === 'asc' && !filterBy) {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(allAsc);
+    res.send(jsonItem);
+  }
+
+  if (order === 'desc' && !filterBy) {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(allDesc);
+    res.send(jsonItem);
+  }
+
+  if (order === 'asc' && filterBy === 'done') {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(doneAsc);
+    res.send(jsonItem);
+  }
+
+  if (order === 'desc' && filterBy === 'done') {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(doneDesc);
+    res.send(jsonItem);
+  }
+  
+  if (order === 'asc' && filterBy === 'undone') {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(undoneAsc);
+    res.send(jsonItem);
+  }
+
+  if (order === 'desc' && filterBy === 'undone') {
+    
+    res.status(200);
+    const jsonItem = JSON.stringify(undoneDesc);
+    res.send(jsonItem);
+  }
+
+  // if (order === 'asc') {
+
+  // }
+
 });
+
+// app.get('/order=desc', (req, res) => {
+// const file = fs.readFileSync('database.json');
+// const array = JSON.parse(file);
+// array.sort((a, b) => {
+// if (a.name > b.name) {
+// return -1;
+// }else if (a.name < b.name) {
+// return 1;
+// } else{
+// return 0;
+// }
+// });
+// res.status(201).json(array);
+// const jsonItem = JSON.stringify(array);
+// fs.writeFileSync('database.json', jsonItem, 'utf8');
+// });
+
+// app.get('/order=asc', (req, res) => {
+//   const file = fs.readFileSync('database.json');
+//   const array = JSON.parse(file);
+//   array.sort((a, b) => {
+//     if (a.name < b.name) {
+//       return -1;
+//     } else if (a.name > b.name) {
+//     return 1;
+//     } else {
+//     return 0;
+//     }
+//   });
+
+// res.status(201).json(array);
+// const jsonItem = JSON.stringify(array);
+// fs.writeFileSync('database.json', jsonItem, 'utf8');
+// });
