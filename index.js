@@ -89,6 +89,8 @@ app.listen(PORT, () => {
 });
 
 app.post('/', (req, res) => {
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
   const item = req.body;
   item.id = array.length;
   item.done = false;
@@ -101,6 +103,8 @@ app.post('/', (req, res) => {
 
 app.get('/', (req, res) => {
   // res.sendFile(path.resolve(__dirname, 'database.json'));
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
   const {filterBy, order} = req.query;
   if (order === 'asc' && !filterBy) {
     
@@ -144,43 +148,4 @@ app.get('/', (req, res) => {
     res.send(jsonItem);
   }
 
-  // if (order === 'asc') {
-
-  // }
-
 });
-
-// app.get('/order=desc', (req, res) => {
-// const file = fs.readFileSync('database.json');
-// const array = JSON.parse(file);
-// array.sort((a, b) => {
-// if (a.name > b.name) {
-// return -1;
-// }else if (a.name < b.name) {
-// return 1;
-// } else{
-// return 0;
-// }
-// });
-// res.status(201).json(array);
-// const jsonItem = JSON.stringify(array);
-// fs.writeFileSync('database.json', jsonItem, 'utf8');
-// });
-
-// app.get('/order=asc', (req, res) => {
-//   const file = fs.readFileSync('database.json');
-//   const array = JSON.parse(file);
-//   array.sort((a, b) => {
-//     if (a.name < b.name) {
-//       return -1;
-//     } else if (a.name > b.name) {
-//     return 1;
-//     } else {
-//     return 0;
-//     }
-//   });
-
-// res.status(201).json(array);
-// const jsonItem = JSON.stringify(array);
-// fs.writeFileSync('database.json', jsonItem, 'utf8');
-// });
