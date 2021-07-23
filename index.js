@@ -114,9 +114,7 @@ app.delete('/:del', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  // res.sendFile(path.resolve(__dirname, 'database.json'));
-  const file = fs.readFileSync('database.json');
-  const array = JSON.parse(file);
+
   const {filterBy, order} = req.query;
   if (order === 'asc' && !filterBy) {
     
