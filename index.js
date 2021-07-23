@@ -25,65 +25,72 @@ const array = JSON.parse(file);
 const done = array.filter((item) => { return item.done !== false });
 const undone = array.filter((item) => { return item.done !== true });
 
-const allAsc = [...array].sort((a, b) => {
-  if (a.time < b.time) {
-    return -1;
-  } else if (a.time > b.time) {
-    return 1;
-  } else {
-    return 0;
-  }
-});
+const handler = (filter, order) => {
 
-const allDesc = [...array].sort((a, b) => {
-  if (a.time > b.time) {
-    return -1;
-  } else if (a.time < b.time) {
-    return 1;
-  } else {
-    return 0;
+  const filtration = (array) => {
+    let filtredArr;
+    if ( filter === 'done') {
+      filtredArr = array.filter((item) => { return item.done !== false });
+    }
+    if ( filter === 'undone') {
+      filtredArr = array.filter((item) => { return item.done !== true });
+    }
+    if ( !filter ) {
+      return filtredArr = [...array];
+    }
+    return filtredArr;
   }
-});
 
-const doneAsc = [...done].sort((a, b) => {
-  if (a.time < b.time) {
-    return -1;
-  } else if (a.time > b.time) {
-    return 1;
-  } else {
-    return 0;
+  let sortedArr;
+  if (order === 'asc') {
+    sortedArr = [...array].sort((a, b) => {
+      if (a.time < b.time) {
+              return -1;
+            } else if (a.time > b.time) {
+              return 1;
+            } else {
+              return 0;
+            }
+    });
+    return filtration(sortedArr);
   }
-});
+  if (order === 'desc') {
+    sortedArr = [...array].sort((a, b) => {
+      if (a.time > b.time) {
+              return -1;
+            } else if (a.time < b.time) {
+              return 1;
+            } else {
+              return 0;
+            }
+    });
+    return filtration(sortedArr);
+  }
+}
 
-const doneDesc = [...done].sort((a, b) => {
-  if (a.time > b.time) {
-    return -1;
-  } else if (a.time < b.time) {
-    return 1;
-  } else {
-    return 0;
-  }
-});
+// const allAsc = (array) => {
+//   return [...array].sort((a, b) => {
+//     if (a.time < b.time) {
+//       return -1;
+//     } else if (a.time > b.time) {
+//       return 1;
+//     } else {
+//       return 0;
+//     }
+//   });
+// }
 
-const undoneAsc = [...undone].sort((a, b) => {
-  if (a.time < b.time) {
-    return -1;
-  } else if (a.time > b.time) {
-    return 1;
-  } else {
-    return 0;
-  }
-});
-
-const undoneDesc = [...undone].sort((a, b) => {
-  if (a.time > b.time) {
-    return -1;
-  } else if (a.time < b.time) {
-    return 1;
-  } else {
-    return 0;
-  }
-});
+// const allDesc = (array) => {
+//   return [...array].sort((a, b) => {
+//     if (a.time > b.time) {
+//       return -1;
+//     } else if (a.time < b.time) {
+//       return 1;
+//     } else {
+//       return 0;
+//     }
+//   });
+// }
 
 app.listen(PORT, () => {
   console.log(`Server has been started on port ${PORT}`)
@@ -138,46 +145,53 @@ app.patch('/:id', (req, res) => {
 app.get('/', (req, res) => {
 
   const {filterBy, order} = req.query;
-  if (order === 'asc' && !filterBy) {
-    
-    res.status(200);
-    const jsonItem = JSON.stringify(allAsc);
-    res.send(jsonItem);
-  }
 
-  if (order === 'desc' && !filterBy) {
-    
-    res.status(200);
-    const jsonItem = JSON.stringify(allDesc);
-    res.send(jsonItem);
-  }
+  const resArr = handler(filterBy, order);
 
-  if (order === 'asc' && filterBy === 'done') {
-    
-    res.status(200);
-    const jsonItem = JSON.stringify(doneAsc);
+  res.status(200);
+    const jsonItem = JSON.stringify(resArr);
     res.send(jsonItem);
-  }
 
-  if (order === 'desc' && filterBy === 'done') {
+  // if (order === 'asc' && !filterBy) {
     
-    res.status(200);
-    const jsonItem = JSON.stringify(doneDesc);
-    res.send(jsonItem);
-  }
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allAsc(array));
+  //   res.send(jsonItem);
+  // }
+
+  // if (order === 'desc' && !filterBy) {
+    
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allDesc(array));
+  //   res.send(jsonItem);
+  // }
+
+  // if (order === 'asc' && filterBy === 'done') {
+    
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allAsc(done));
+  //   res.send(jsonItem);
+  // }
+
+  // if (order === 'desc' && filterBy === 'done') {
+    
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allDesc(done));
+  //   res.send(jsonItem);
+  // }
   
-  if (order === 'asc' && filterBy === 'undone') {
+  // if (order === 'asc' && filterBy === 'undone') {
     
-    res.status(200);
-    const jsonItem = JSON.stringify(undoneAsc);
-    res.send(jsonItem);
-  }
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allAsc(undone));
+  //   res.send(jsonItem);
+  // }
 
-  if (order === 'desc' && filterBy === 'undone') {
+  // if (order === 'desc' && filterBy === 'undone') {
     
-    res.status(200);
-    const jsonItem = JSON.stringify(undoneDesc);
-    res.send(jsonItem);
-  }
+  //   res.status(200);
+  //   const jsonItem = JSON.stringify(allDesc(undone));
+  //   res.send(jsonItem);
+  // }
 
 });
