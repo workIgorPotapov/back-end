@@ -93,7 +93,6 @@ app.post('/', (req, res) => {
   const file = fs.readFileSync('database.json');
   const array = JSON.parse(file);
   const item = req.body;
-  // item.id = Math.random().toString().substr(2,5);
   item.id = uuidv4();
   item.done = false;
   item.time = new Date();
@@ -103,16 +102,37 @@ app.post('/', (req, res) => {
   fs.writeFileSync('database.json', jsonItem, 'utf8');
 });
 
-app.delete('/:del', (req, res) => {
-  const {del} = req.params;
+app.delete('/:id', (req, res) => {
+  const {id} = req.params;
   const file = fs.readFileSync('database.json');
   const array = JSON.parse(file);
-  const removedArray = array.filter((item) => item.id !== del);
+  const removedArray = array.filter((item) => item.id !== id);
   const jsonItem = JSON.stringify(removedArray);
   fs.writeFileSync('database.json', jsonItem, 'utf8');
   res.status(200);
-  console.log(del)
+  console.log(id)
   console.log(removedArray)
+});
+
+app.patch('/:id', (req, res) => {
+  const {id} = req.params;
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
+  const changedItem = req.body;
+  const changedArray = array.map((item) => {
+    if (item.id === id) {
+      for (let key in changedItem) {
+        item[key] = changedItem[key];
+        return item;
+      }
+    } else {
+      return item;
+    }
+  });
+  const jsonItem = JSON.stringify(changedArray);
+  fs.writeFileSync('database.json', jsonItem, 'utf8');
+  res.status(200);
+  console.log(changedArray)
 });
 
 app.get('/', (req, res) => {
