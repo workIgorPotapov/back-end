@@ -22,48 +22,41 @@ if (!fs.existsSync('database.json')) {
 
 const file = fs.readFileSync('database.json');
 const array = JSON.parse(file);
-const done = array.filter((item) => { return item.done !== false });
-const undone = array.filter((item) => { return item.done !== true });
+// const done = array.filter((item) => { return item.done !== false });
+// const undone = array.filter((item) => { return item.done !== true });
 
-const handler = (filter, order) => {
+const reqHandler = (filter, order) => {
+  const compare = (a, b) => {
+    if (a.time < b.time) {
+      return -1;
+    } else if (a.time > b.time) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 
   const filtration = (array) => {
-    let filtredArr;
+    let filteredArray;
     if ( filter === 'done') {
-      filtredArr = array.filter((item) => { return item.done !== false });
+      filteredArray = array.filter((item) => { return item.done !== false });
     }
     if ( filter === 'undone') {
-      filtredArr = array.filter((item) => { return item.done !== true });
+      filteredArray = array.filter((item) => { return item.done !== true });
     }
     if ( !filter ) {
-      return filtredArr = [...array];
+      return filteredArray = [...array];
     }
-    return filtredArr;
+    return filteredArray;
   }
 
   let sortedArr;
   if (order === 'asc') {
-    sortedArr = [...array].sort((a, b) => {
-      if (a.time < b.time) {
-              return -1;
-            } else if (a.time > b.time) {
-              return 1;
-            } else {
-              return 0;
-            }
-    });
+    sortedArr = [...array].sort(compare);
     return filtration(sortedArr);
   }
   if (order === 'desc') {
-    sortedArr = [...array].sort((a, b) => {
-      if (a.time > b.time) {
-              return -1;
-            } else if (a.time < b.time) {
-              return 1;
-            } else {
-              return 0;
-            }
-    });
+    sortedArr = [...array].sort(compare).reverse();
     return filtration(sortedArr);
   }
 }
@@ -146,7 +139,7 @@ app.get('/', (req, res) => {
 
   const {filterBy, order} = req.query;
 
-  const resArr = handler(filterBy, order);
+  const resArr = reqHandler(filterBy, order);
 
   res.status(200);
     const jsonItem = JSON.stringify(resArr);
