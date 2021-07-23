@@ -101,6 +101,18 @@ app.post('/', (req, res) => {
   fs.writeFileSync('database.json', jsonItem, 'utf8');
 });
 
+app.delete('/:del', (req, res) => {
+  const {del} = req.params;
+  const file = fs.readFileSync('database.json');
+  const array = JSON.parse(file);
+  const removedArray = array.filter((item) => item.id !== (+del));
+  const jsonItem = JSON.stringify(removedArray);
+  fs.writeFileSync('database.json', jsonItem, 'utf8');
+  res.status(200);
+  console.log(del)
+  console.log(removedArray)
+});
+
 app.get('/', (req, res) => {
   // res.sendFile(path.resolve(__dirname, 'database.json'));
   const file = fs.readFileSync('database.json');
