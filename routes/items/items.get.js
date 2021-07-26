@@ -1,13 +1,13 @@
 import express from 'express';
-import fileSystem from '../file-system.js';
+import fileSystem from '../../file-system.js';
 
 const getItems = express.Router();
 
-if (!fileSystem('exists', 'database.json')) {
-  fileSystem('write', 'database.json', JSON.stringify([]));
+if (!fileSystem('exists')) {
+  fileSystem('write', JSON.stringify([]));
 }
 
-const file = fileSystem('read', 'database.json');
+const file = fileSystem('read');
 const array = JSON.parse(file);
 
 const reqHandler = (filter, order, page) => {
@@ -29,15 +29,15 @@ const reqHandler = (filter, order, page) => {
   }
 
   const filtration = (array) => {
-    let filteredDone = array.filter((item) => { return item.done !== false });
-    let filteredUndone = array.filter((item) => { return item.done !== true });
-    if ( filter === 'done') {
+    let filteredDone = array.filter((item) => { return item.done === true });
+    let filteredUndone = array.filter((item) => { return item.done === false });
+    if (filter === 'done') {
       return pagination(filteredDone, page);
     }
-    if ( filter === 'undone') {
+    if (filter === 'undone') {
       return pagination(filteredUndone, page);
     }
-    if ( !filter ) {
+    if (!filter ) {
       return pagination(array, page);
     }
   }

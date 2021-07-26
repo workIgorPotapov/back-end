@@ -1,8 +1,8 @@
 import express, { json } from 'express';
-import getItems from './items/items.get.js';
-import postItem from './items/item.post.js';
-import patchItem from './items/item.patch.js';
-import deleteItem from './items/item.delete.js';
+import getItems from './routes/items/items.get.js';
+import postItem from './routes/items/item.post.js';
+import patchItem from './routes/items/item.patch.js';
+import deleteItem from './routes/items/item.delete.js';
 
 const app = express();
 

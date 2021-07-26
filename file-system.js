@@ -1,6 +1,8 @@
 import fs from 'fs';
 
-const fileSystem = (method, file, item) => {
+const file = 'database.json';
+
+const fileSystem = (method, item) => {
   if (method === 'read') {
     const fileObj = fs.readFileSync(file);
     return fileObj;
@@ -13,6 +15,5 @@ const fileSystem = (method, file, item) => {
     return fs.existsSync(file);
   }
 }
-
 
 export default fileSystem;
