@@ -1,6 +1,5 @@
 import express from 'express';
-import fs from 'fs';
-import fileSystem from './file-system.js';
+import fileSystem from '../file-system.js';
 
 const patchItem = express.Router();
 
@@ -22,7 +21,7 @@ patchItem.patch('/:id', (req, res) => {
     const jsonItem = JSON.stringify(changedArray);
     fileSystem('write', 'database.json', jsonItem);
     res.status(200);
-    console.log(changedArray)
+    res.send(jsonItem);
   });
 
   export default patchItem;

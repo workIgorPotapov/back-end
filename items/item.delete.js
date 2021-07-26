@@ -1,6 +1,5 @@
 import express from 'express';
-import fs from 'fs';
-import fileSystem from './file-system.js';
+import fileSystem from '../file-system.js';
 
 const deleteItem = express.Router();
 
@@ -12,8 +11,7 @@ deleteItem.delete('/:id',(req, res) => {
     const jsonItem = JSON.stringify(removedArray);
     fileSystem('write', 'database.json', jsonItem);
     res.status(200);
-    console.log(id)
-    console.log(removedArray)
+    res.send(jsonItem);
   });
 
   export default deleteItem;

@@ -1,6 +1,6 @@
 import express, { json } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import fileSystem from './file-system.js';
+import fileSystem from '../file-system.js';
 
 const postItem = express.Router();
 
@@ -12,9 +12,10 @@ postItem.post('/', (req, res) => {
     item.done = false;
     item.time = new Date();
     array.push(item);
-    res.status(201).json(item);
+    res.status(201);
     const jsonItem = JSON.stringify(array);
     fileSystem('write', 'database.json', jsonItem);
+    res.send(jsonItem);
   });
 
   export default postItem;

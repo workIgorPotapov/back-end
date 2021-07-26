@@ -1,13 +1,16 @@
 import express from 'express';
-import fs from 'fs';
-import fileSystem from './file-system.js';
+import fileSystem from '../file-system.js';
 
 const getItems = express.Router();
+
+if (!fileSystem('exists', 'database.json')) {
+  fileSystem('write', 'database.json', JSON.stringify([]));
+}
 
 const file = fileSystem('read', 'database.json');
 const array = JSON.parse(file);
 
-const reqHandler = (filter, order) => {
+const reqHandler = (filter, order, page) => {
   const compare = (a, b) => {
     if (a.time < b.time) {
       return -1;
@@ -18,17 +21,24 @@ const reqHandler = (filter, order) => {
     }
   }
 
+  const pagination = (array, page) => {
+    const lastItemIndex = page * 5;
+    const firstItemIndex = lastItemIndex - 5;
+    const currentPage = array.slice(firstItemIndex, lastItemIndex);
+    return currentPage;
+  }
+
   const filtration = (array) => {
     let filteredDone = array.filter((item) => { return item.done !== false });
     let filteredUndone = array.filter((item) => { return item.done !== true });
     if ( filter === 'done') {
-      return filteredDone;
+      return pagination(filteredDone, page);
     }
     if ( filter === 'undone') {
-      return filteredUndone;
+      return pagination(filteredUndone, page);
     }
     if ( !filter ) {
-      return array;
+      return pagination(array, page);
     }
   }
 
@@ -43,14 +53,15 @@ const reqHandler = (filter, order) => {
 }
 
 getItems.get('/', (req, res) => {
+  const {filterBy, order, page} = req.query;
 
-  const {filterBy, order} = req.query;
-
-  const resArr = reqHandler(filterBy, order);
-
+  const resArr = reqHandler(filterBy, order, page);
+  const totalPages = (Math.ceil(array.length / 5)).toString();
   res.status(200);
-    const jsonItem = JSON.stringify(resArr);
-    res.send(jsonItem);
+  const jsonItem = JSON.stringify(resArr);
+  res.write(jsonItem);
+  res.write(totalPages);
+  res.end();
 });
 
 export default getItems;

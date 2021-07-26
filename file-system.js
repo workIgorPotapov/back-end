@@ -9,6 +9,9 @@ const fileSystem = (method, file, item) => {
     const fileObj = fs.writeFileSync(file, item, 'utf8');
     return fileObj;
   }
+  if (method === 'exists') {
+    return fs.existsSync(file);
+  }
 }
 
 
