@@ -1,11 +1,11 @@
 import express, { json } from 'express';
-import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import fileSystem from './file-system.js';
 
 const postItem = express.Router();
 
 postItem.post('/', (req, res) => {
-    const file = fs.readFileSync('database.json');
+    const file = fileSystem('read', 'database.json');
     const array = JSON.parse(file);
     const item = req.body;
     item.id = uuidv4();
@@ -14,7 +14,7 @@ postItem.post('/', (req, res) => {
     array.push(item);
     res.status(201).json(item);
     const jsonItem = JSON.stringify(array);
-    fs.writeFileSync('database.json', jsonItem, 'utf8');
+    fileSystem('write', 'database.json', jsonItem);
   });
 
   export default postItem;

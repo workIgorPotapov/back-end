@@ -1,9 +1,10 @@
 import express from 'express';
 import fs from 'fs';
+import fileSystem from './file-system.js';
 
 const getItems = express.Router();
 
-const file = fs.readFileSync('database.json');
+const file = fileSystem('read', 'database.json');
 const array = JSON.parse(file);
 
 const reqHandler = (filter, order) => {
@@ -18,26 +19,25 @@ const reqHandler = (filter, order) => {
   }
 
   const filtration = (array) => {
-    let filteredArray;
+    let filteredDone = array.filter((item) => { return item.done !== false });
+    let filteredUndone = array.filter((item) => { return item.done !== true });
     if ( filter === 'done') {
-      filteredArray = array.filter((item) => { return item.done !== false });
+      return filteredDone;
     }
     if ( filter === 'undone') {
-      filteredArray = array.filter((item) => { return item.done !== true });
+      return filteredUndone;
     }
     if ( !filter ) {
-      return filteredArray = [...array];
+      return array;
     }
-    return filteredArray;
   }
 
-  let sortedArr;
+  let sortedArr = [...array].sort(compare);
   if (order === 'asc') {
-    sortedArr = [...array].sort(compare);
     return filtration(sortedArr);
   }
   if (order === 'desc') {
-    sortedArr = [...array].sort(compare).reverse();
+    sortedArr.reverse();
     return filtration(sortedArr);
   }
 }

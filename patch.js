@@ -1,11 +1,12 @@
 import express from 'express';
 import fs from 'fs';
+import fileSystem from './file-system.js';
 
 const patchItem = express.Router();
 
 patchItem.patch('/:id', (req, res) => {
     const {id} = req.params;
-    const file = fs.readFileSync('database.json');
+    const file = fileSystem('read', 'database.json');
     const array = JSON.parse(file);
     const changedItem = req.body;
     const changedArray = array.map((item) => {
@@ -19,7 +20,7 @@ patchItem.patch('/:id', (req, res) => {
       }
     });
     const jsonItem = JSON.stringify(changedArray);
-    fs.writeFileSync('database.json', jsonItem, 'utf8');
+    fileSystem('write', 'database.json', jsonItem);
     res.status(200);
     console.log(changedArray)
   });
