@@ -56,12 +56,9 @@ getItems.get('/', (req, res) => {
   const {filterBy, order, page} = req.query;
 
   const resArr = reqHandler(filterBy, order, page);
-  const totalPages = (Math.ceil(array.length / 5)).toString();
   res.status(200);
   const jsonItem = JSON.stringify(resArr);
-  res.write(jsonItem);
-  res.write(totalPages);
-  res.end();
+  res.send(jsonItem);
 });
 
 export default getItems;
