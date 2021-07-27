@@ -8,7 +8,7 @@ if (!fileSystem('exists')) {
 }
 
 const file = fileSystem('read');
-const array = JSON.parse(file);
+const arrayItems = JSON.parse(file);
 
 const reqHandler = (filter, order, page) => {
   const compare = (a, b) => {
@@ -21,7 +21,7 @@ const reqHandler = (filter, order, page) => {
     }
   }
 
-  const pagination = (array, page) => {
+  const pagination = (array) => {
     const lastItemIndex = page * 5;
     const firstItemIndex = lastItemIndex - 5;
     const currentPage = array.slice(firstItemIndex, lastItemIndex);
@@ -29,32 +29,21 @@ const reqHandler = (filter, order, page) => {
   }
 
   const filtration = (array) => {
-    let filteredDone = array.filter((item) => { return item.done === true });
-    let filteredUndone = array.filter((item) => { return item.done === false });
-    if (filter === 'done') {
-      return pagination(filteredDone, page);
-    }
-    if (filter === 'undone') {
-      return pagination(filteredUndone, page);
-    }
-    if (!filter ) {
-      return pagination(array, page);
-    }
+    const filteredArr = 
+    (filter === 'done') ? array.filter((item) => { return item.done === true }) :
+    (filter === 'undone') ? array.filter((item) => { return item.done === false }) :
+    [...array];
+    return pagination(filteredArr);
   }
 
-  let sortedArr = [...array].sort(compare);
-  if (order === 'asc') {
-    return filtration(sortedArr);
-  }
-  if (order === 'desc') {
-    sortedArr.reverse();
-    return filtration(sortedArr);
-  }
+  let sortedArr = 
+  (order === 'asc') ? [...arrayItems].sort(compare) : 
+  [...arrayItems].sort(compare).reverse();
+  return filtration(sortedArr);
 }
 
 getItems.get('/', (req, res) => {
   const {filterBy, order, page} = req.query;
-
   const resArr = reqHandler(filterBy, order, page);
   res.status(200);
   const jsonItem = JSON.stringify(resArr);
