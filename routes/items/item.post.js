@@ -8,27 +8,42 @@ const postItem = express.Router();
 const file = fileSystem('read');
 const array = JSON.parse(file);
 
+const comparingName = (item) => {
+  for (let keys of array) {
+    if (keys.name === item.name) {
+      return true;
+    }
+  }
+}
+
 postItem.post(
   '/',
   body('name').isLength({ min: 2 }),
   body('name').notEmpty(),
   (req, res) => {
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400);
-      res.send({ errors: errors.array() });
+      res.status(422);
+      res.send(errors);
       return;
     }
-    const item = req.body;
-    item.id = uuidv4();
-    item.done = false;
-    item.time = new Date();
-    array.push(item);
-    res.status(201);
-    const jsonItem = JSON.stringify(array);
-    fileSystem('write', jsonItem);
-    res.send(jsonItem);
+    try {
+      const item = req.body;
+      if (comparingName(item)) {
+        throw Error('Item has been already created');
+      }
+      item.id = uuidv4();
+      item.done = false;
+      item.time = new Date();
+      array.push(item);
+      res.status(201);
+      const jsonItem = JSON.stringify(array);
+      fileSystem('write', jsonItem);
+      res.send(jsonItem);
+    }
+    catch(error) {
+      res.status(400).send(error.message)
+    }
   });
 
   export default postItem;
