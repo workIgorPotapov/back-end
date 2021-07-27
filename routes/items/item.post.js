@@ -41,8 +41,8 @@ postItem.post(
       fileSystem('write', jsonItem);
       res.send(jsonItem);
     }
-    catch(error) {
-      res.status(400).send(error.message)
+    catch(e) {
+      res.status(400).send(e.message)
     }
   });
 
