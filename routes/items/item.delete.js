@@ -1,6 +1,6 @@
 import express from 'express';
 import fileSystem from '../../file-system.js';
-import comparingId from '../../comparing-id.js'
+import comparingId from '../../comparing-props.js'
 
 const deleteItem = express.Router();
 

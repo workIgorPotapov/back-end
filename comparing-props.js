@@ -11,4 +11,12 @@ const comparingId = (id) => {
   }
 }
 
+export const comparingName = (item) => {
+  for (let keys of array) {
+    if (keys.name === item.name) {
+      return true;
+    }
+  }
+}
+
 export default comparingId;

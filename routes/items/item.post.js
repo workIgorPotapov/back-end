@@ -2,19 +2,12 @@ import express, { json } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import fileSystem from '../../file-system.js';
 import { body, validationResult } from 'express-validator';
+import { comparingName } from '../../comparing-props.js';
 
 const postItem = express.Router();
 
 const file = fileSystem('read');
 const array = JSON.parse(file);
-
-const comparingName = (item) => {
-  for (let keys of array) {
-    if (keys.name === item.name) {
-      return true;
-    }
-  }
-}
 
 postItem.post(
   '/',
