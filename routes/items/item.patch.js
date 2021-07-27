@@ -1,22 +1,14 @@
 import express from 'express';
 import fileSystem from '../../file-system.js';
+import comparingId from '../../comparing-id.js'
 
 const patchItem = express.Router();
 
-const file = fileSystem('read');
-const array = JSON.parse(file);
-
-const comparingId = (id) => {
-  for (let keys of array) {
-    if (keys.id === id) {
-      return true;
-    }
-  }
-}
-
 patchItem.patch('/:id', (req, res) => {
+  const file = fileSystem('read');
+  const array = JSON.parse(file);
+  const {id} = req.params;
   try {
-    const {id} = req.params;
     if (!comparingId(id)) {
       throw Error('Task not found');
     }
