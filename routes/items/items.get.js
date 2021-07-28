@@ -33,8 +33,10 @@ const reqHandler = (filter, order, page) => {
     // (filter === 'undone') ? array.filter((item) => { return item.done === false }) :
     // [...array];
     // return pagination(filteredArr);
-    const filteredArr = (filter) ? array.filter((item) => { return (filter === 'done') ? item.done === true : item.done === false
-    }) : [...array];
+    if (filter === undefined) {
+      return pagination(array);
+    }
+    const filteredArr = array.filter((item) => { return item.done === (filter === 'done') });
     return pagination(filteredArr);
   }
 
