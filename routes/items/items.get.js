@@ -29,10 +29,13 @@ const reqHandler = (filter, order, page) => {
   }
 
   const filtration = (array) => {
-    const filteredArr = 
-    (filter === 'done') ? array.filter((item) => { return item.done === true }) :
-    (filter === 'undone') ? array.filter((item) => { return item.done === false }) :
-    [...array];
+    // const filteredArr = 
+    // (filter === 'done') ? array.filter((item) => { return item.done === true }) :
+    // (filter === 'undone') ? array.filter((item) => { return item.done === false }) :
+    // [...array];
+    // return pagination(filteredArr);
+    const filteredArr = (filter) ? array.filter((item) => { return (filter === 'done') ? item.done === true : item.done === false
+    }) : [...array];
     return pagination(filteredArr);
   }
 
