@@ -15,8 +15,7 @@ deleteItem.delete('/:id',(req, res) => {
       const removedArray = array.filter((item) => item.id !== id);
       const jsonItem = JSON.stringify(removedArray);
       fileSystem('write', jsonItem);
-      res.status(200);
-      res.send(jsonItem);
+      res.status(200).send(jsonItem);
     }
     catch(e) {
       res.status(404).send(e.message);

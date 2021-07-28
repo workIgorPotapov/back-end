@@ -1,6 +1,6 @@
 import express from 'express';
 import fileSystem from '../../file-system.js';
-import comparingId from '../../comparing-props.js'
+import comparingId from '../../comparing-props.js';
 
 const patchItem = express.Router();
 
@@ -13,20 +13,13 @@ patchItem.patch('/:id', (req, res) => {
       throw Error('Task not found');
     }
     const changedItem = req.body;
-    const changedArray = array.map((item) => {
-      if (item.id === id) {
-        for (let key in changedItem) {
-          item[key] = changedItem[key];
-          return item;
-        }
-      } else {
-        return item;
-      }
-    });
-    const jsonItem = JSON.stringify(changedArray);
+    const targetItem = array.find(item => item.id === id);
+    for (let key in changedItem) {
+      targetItem[key] = changedItem[key];
+    }
+    const jsonItem = JSON.stringify(array);
     fileSystem('write', jsonItem);
-    res.status(200);
-    res.send(jsonItem);
+    res.status(200).send(jsonItem);
   }
   catch(e) {
     res.status(404).send(e.message);

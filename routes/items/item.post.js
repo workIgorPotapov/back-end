@@ -16,8 +16,7 @@ postItem.post(
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(422);
-      res.send(errors);
+      res.status(422).send(errors);
       return;
     }
     try {
@@ -29,13 +28,12 @@ postItem.post(
       item.done = false;
       item.time = new Date();
       array.push(item);
-      res.status(201);
       const jsonItem = JSON.stringify(array);
       fileSystem('write', jsonItem);
-      res.send(jsonItem);
+      res.status(201).send(jsonItem);
     }
     catch(e) {
-      res.status(400).send(e.message)
+      res.status(400).send(e.message);
     }
   });
 
