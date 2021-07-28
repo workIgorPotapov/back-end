@@ -22,9 +22,9 @@ postItem.post(
       if (comparingName(item)) {
         throw Error('Item has been already created');
       }
-      item.id = uuidv4();
+      item.uuid = uuidv4();
       item.done = false;
-      item.time = new Date();
+      item.createdAt = new Date();
       array.push(item);
       fileSystem('write', array);
       res.status(201).send(item);
