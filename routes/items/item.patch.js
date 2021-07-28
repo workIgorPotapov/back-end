@@ -17,7 +17,7 @@ patchItem.patch('/:id', (req, res) => {
       targetItem[key] = changedItem[key];
     }
     fileSystem('write', array);
-    res.status(200).send(array);
+    res.status(200).send(targetItem);
   }
   catch(e) {
     res.status(404).send(e.message);

@@ -13,7 +13,7 @@ deleteItem.delete('/:id',(req, res) => {
       }
       const removedArray = array.filter((item) => item.id !== id);
       fileSystem('write', removedArray);
-      res.status(200).send(removedArray);
+      res.status(204);
     }
     catch(e) {
       res.status(404).send(e.message);

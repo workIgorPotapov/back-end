@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import fileSystem from '../../file-system.js';
 import { body, validationResult } from 'express-validator';
@@ -10,8 +10,7 @@ const array = fileSystem('read');
 
 postItem.post(
   '/',
-  body('name').isLength({ min: 2 }),
-  body('name').notEmpty(),
+  body('name').isLength({ min: 2 }).notEmpty(),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -28,7 +27,7 @@ postItem.post(
       item.time = new Date();
       array.push(item);
       fileSystem('write', array);
-      res.status(201).send(array);
+      res.status(201).send(item);
     }
     catch(e) {
       res.status(400).send(e.message);

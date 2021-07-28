@@ -1,4 +1,4 @@
-import express, { json } from 'express';
+import express from 'express';
 import getItems from './routes/items/items.get.js';
 import postItem from './routes/items/item.post.js';
 import patchItem from './routes/items/item.patch.js';
