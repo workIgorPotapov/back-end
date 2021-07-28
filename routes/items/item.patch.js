@@ -5,8 +5,7 @@ import comparingId from '../../comparing-props.js';
 const patchItem = express.Router();
 
 patchItem.patch('/:id', (req, res) => {
-  const file = fileSystem('read');
-  const array = JSON.parse(file);
+  const array = fileSystem('read');
   const {id} = req.params;
   try {
     if (!comparingId(id)) {
@@ -17,9 +16,8 @@ patchItem.patch('/:id', (req, res) => {
     for (let key in changedItem) {
       targetItem[key] = changedItem[key];
     }
-    const jsonItem = JSON.stringify(array);
-    fileSystem('write', jsonItem);
-    res.status(200).send(jsonItem);
+    fileSystem('write', array);
+    res.status(200).send(array);
   }
   catch(e) {
     res.status(404).send(e.message);

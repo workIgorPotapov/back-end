@@ -4,11 +4,10 @@ import fileSystem from '../../file-system.js';
 const getItems = express.Router();
 
 if (!fileSystem('exists')) {
-  fileSystem('write', JSON.stringify([]));
+  fileSystem('write', []);
 }
 
-const file = fileSystem('read');
-const arrayItems = JSON.parse(file);
+const arrayItems = fileSystem('read');
 
 const reqHandler = (filter, order, page) => {
   const compare = (a, b) => {

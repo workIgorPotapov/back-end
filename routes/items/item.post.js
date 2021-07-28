@@ -6,8 +6,7 @@ import { comparingName } from '../../comparing-props.js';
 
 const postItem = express.Router();
 
-const file = fileSystem('read');
-const array = JSON.parse(file);
+const array = fileSystem('read');
 
 postItem.post(
   '/',
@@ -28,9 +27,8 @@ postItem.post(
       item.done = false;
       item.time = new Date();
       array.push(item);
-      const jsonItem = JSON.stringify(array);
-      fileSystem('write', jsonItem);
-      res.status(201).send(jsonItem);
+      fileSystem('write', array);
+      res.status(201).send(array);
     }
     catch(e) {
       res.status(400).send(e.message);

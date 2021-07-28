@@ -5,17 +5,15 @@ import comparingId from '../../comparing-props.js'
 const deleteItem = express.Router();
 
 deleteItem.delete('/:id',(req, res) => {
-    const file = fileSystem('read');
-    const array = JSON.parse(file);
+    const array = fileSystem('read');
     const {id} = req.params;
     try {
       if (!comparingId(id)) {
         throw Error('Task not found');
       }
       const removedArray = array.filter((item) => item.id !== id);
-      const jsonItem = JSON.stringify(removedArray);
-      fileSystem('write', jsonItem);
-      res.status(200).send(jsonItem);
+      fileSystem('write', removedArray);
+      res.status(200).send(removedArray);
     }
     catch(e) {
       res.status(404).send(e.message);

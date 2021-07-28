@@ -1,7 +1,6 @@
 import fileSystem from './file-system.js';
 
-const file = fileSystem('read');
-const array = JSON.parse(file);
+const array = fileSystem('read');
 
 const comparingId = (id) => {
   for (let keys of array) {
