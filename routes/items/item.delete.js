@@ -4,9 +4,10 @@ import comparingId from '../../comparing-props.js'
 
 const deleteItem = express.Router();
 
-deleteItem.delete('/:id',(req, res) => {
+deleteItem.delete('/',(req, res) => {
     const array = fileSystem('read');
-    const {id} = req.params;
+    const {id} = req.query;
+    console.log(req.query)
     try {
       if (!comparingId(id)) {
         throw Error('Task not found');
