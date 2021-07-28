@@ -4,7 +4,7 @@ const array = fileSystem('read');
 
 const comparingId = (id) => {
   for (let keys of array) {
-    if (keys.id === id) {
+    if (keys.uuid === id) {
       return true;
     }
   }

@@ -11,7 +11,7 @@ deleteItem.delete('/:id',(req, res) => {
       if (!comparingId(id)) {
         throw Error('Task not found');
       }
-      const removedArray = array.filter((item) => item.id !== id);
+      const removedArray = array.filter((item) => item.uuid !== id);
       fileSystem('write', removedArray);
       res.status(204);
     }

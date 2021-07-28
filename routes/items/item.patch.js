@@ -12,7 +12,7 @@ patchItem.patch('/:id', (req, res) => {
       throw Error('Task not found');
     }
     const changedItem = req.body;
-    const targetItem = array.find(item => item.id === id);
+    const targetItem = array.find(item => item.uuid === id);
     for (let key in changedItem) {
       targetItem[key] = changedItem[key];
     }
