@@ -1,15 +1,12 @@
-import express from 'express';
-import getItems from './routes/items/items.get.js';
-import postItem from './routes/items/item.post.js';
-import patchItem from './routes/items/item.patch.js';
-import deleteItem from './routes/items/item.delete.js';
-import cors from 'cors';
-
+const express = require('express');
+const getItems = require('./routes/items/items.get');
+const postItem = require('./routes/items/item.post');
+const patchItem = require('./routes/items/item.patch');
+const deleteItem = require('./routes/items/item.delete');
+const cors = require("cors");
 const app = express();
 
-app.use(cors({
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-}));
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

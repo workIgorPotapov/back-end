@@ -1,5 +1,5 @@
-import express from 'express';
-import fileSystem from '../../file-system.js';
+const express = require('express');
+const fileSystem = require('../../file-system');
 
 const getItems = express.Router();
 
@@ -48,4 +48,4 @@ getItems.get('/', async (req, res) => {
   res.status(200).send(jsonItem);
 });
 
-export default getItems;
+module.exports = getItems;

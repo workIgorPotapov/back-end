@@ -1,4 +1,4 @@
-import fileSystem from './file-system.js';
+const fileSystem = require('./file-system');
 
 const array = fileSystem('read');
 
@@ -10,7 +10,7 @@ const comparingId = (id) => {
   }
 }
 
-export const comparingName = (item) => {
+const comparingName = (item) => {
   for (let keys of array) {
     if (keys.name === item.name) {
       return true;
@@ -18,4 +18,4 @@ export const comparingName = (item) => {
   }
 }
 
-export default comparingId;
+module.exports = (comparingId, comparingName)

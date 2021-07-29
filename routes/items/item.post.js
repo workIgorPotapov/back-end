@@ -1,8 +1,8 @@
-import express from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import fileSystem from '../../file-system.js';
-import { body, validationResult } from 'express-validator';
-import { comparingName } from '../../comparing-props.js';
+const express = require('express');
+const fileSystem = require('../../file-system');
+const { v4: uuidv4 } = require('uuid');
+const { body, validationResult } = require('express-validator');
+const comparingName = require('../../comparing-props')
 
 const postItem = express.Router();
 
@@ -35,4 +35,4 @@ postItem.post(
     }
   });
 
-  export default postItem;
+  module.exports = postItem;

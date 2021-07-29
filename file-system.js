@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 const file = 'database.json';
 
@@ -17,4 +17,4 @@ const fileSystem = (method, item) => {
   }
 }
 
-export default fileSystem;
+module.exports = fileSystem;

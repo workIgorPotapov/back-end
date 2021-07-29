@@ -1,6 +1,6 @@
-import express from 'express';
-import fileSystem from '../../file-system.js';
-import comparingId from '../../comparing-props.js';
+const express = require('express');
+const fileSystem = require('../../file-system')
+const comparingId = require('../../comparing-props');
 
 const patchItem = express.Router();
 
@@ -24,4 +24,4 @@ patchItem.patch('/:id', (req, res) => {
   }
 });
 
-export default patchItem;
+module.exports = patchItem;
