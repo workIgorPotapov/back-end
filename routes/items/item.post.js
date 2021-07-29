@@ -6,8 +6,6 @@ const comparingName = require('../../comparing-props')
 
 const postItem = express.Router();
 
-const array = fileSystem('read');
-
 postItem.post(
   '/',
   body('name').isLength({ min: 2 }).notEmpty(),
@@ -20,7 +18,6 @@ postItem.post(
     try {
       const array = fileSystem('read');
       const item = req.body;
-      console.log(req.body)
       if (comparingName(item)) {
         throw Error('Item has been already created');
       }

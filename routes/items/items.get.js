@@ -48,4 +48,10 @@ getItems.get('/', (req, res) => {
   res.status(200).send(jsonItem);
 });
 
+getItems.get('/t', (req, res) => {
+  const arrayItems = fileSystem('read');
+  const length = arrayItems.length.toString();
+  res.send(Buffer.from(length));
+});
+
 module.exports = getItems;
