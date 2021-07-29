@@ -16,10 +16,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-app.use('/', getItems);
-app.use('/', postItem);
-app.use('/', patchItem);
-app.use('/', deleteItem);
+app.use('/',cors(), getItems);
+app.use('/',cors(), postItem);
+app.use('/',cors(), patchItem);
+app.use('/',cors(), deleteItem);
 
 app.listen(PORT, () => {
   console.log(`Server has been started on port ${PORT}`)
