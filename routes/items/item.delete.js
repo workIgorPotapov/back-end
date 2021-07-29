@@ -9,9 +9,9 @@ deleteItem.delete('/:id', async (req, res) => {
     const {id} = req.params;
     console.log(req.params, id)
     try {
-      if (!comparingId(id)) {
-        throw Error('Task not found');
-      }
+      // if (!comparingId(id)) {
+      //   throw Error('Task not found');
+      // }
       const removedArray = array.filter((item) => item.uuid !== id);
       await fileSystem('write', removedArray);
       res.status(204);
