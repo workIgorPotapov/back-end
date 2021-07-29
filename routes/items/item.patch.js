@@ -8,10 +8,11 @@ patchItem.patch('/:id', (req, res) => {
   const array = fileSystem('read');
   const {id} = req.params;
   try {
-    if (!comparingId(id)) {
+    if (comparingId(id)) {
       throw Error('Task not found');
     }
     const changedItem = req.body;
+    console.log(id)
     const targetItem = array.find(item => item.uuid === id);
     for (let key in changedItem) {
       targetItem[key] = changedItem[key];
