@@ -1,3 +1,4 @@
+const { json } = require('express');
 const express = require('express');
 const fileSystem = require('../../file-system');
 
@@ -48,12 +49,11 @@ getItems.get('/', (req, res) => {
   const resArr = reqHandler(filterBy, order);
   showingItems = resArr.length.toString();
   const pagArr = pagination(page, resArr);
-  const jsonItem = JSON.stringify(pagArr);
-  res.status(200).send(jsonItem);
-});
-
-getItems.get('/t', (req, res) => {
-  res.send(Buffer.from(showingItems));
+  const result = {
+    pagArr,
+    showingItems,
+  };
+  res.status(200).send(result);
 });
 
 module.exports = getItems;
