@@ -11,7 +11,7 @@ const array = fileSystem('read');
 postItem.post(
   '/',
   body('name').isLength({ min: 2 }).notEmpty(),
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(422).send(errors);
@@ -19,13 +19,14 @@ postItem.post(
     }
     try {
       const item = req.body;
+      console.log(req.body)
       if (comparingName(item)) {
         throw Error('Item has been already created');
       }
       item.uuid = uuidv4();
       item.done = false;
       item.createdAt = new Date();
-      array.push(item);
+      await array.push(item);
       fileSystem('write', array);
       res.status(201).send(item);
     }

@@ -41,9 +41,9 @@ const reqHandler = (filter, order, page) => {
   return filtration(sortedArr);
 }
 
-getItems.get('/', (req, res) => {
+getItems.get('/', async (req, res) => {
   const {filterBy, order, page} = req.query;
-  const resArr = reqHandler(filterBy, order, page);
+  const resArr = await reqHandler(filterBy, order, page);
   const jsonItem = JSON.stringify(resArr);
   res.status(200).send(jsonItem);
 });
