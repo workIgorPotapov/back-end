@@ -8,7 +8,7 @@ import cors from 'cors';
 const app = express();
 
 app.use(cors({
-  origin: '*'
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }));
 
 app.use(express.urlencoded({ extended: false }));
@@ -16,10 +16,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-app.use('/',cors(), getItems);
-app.use('/',cors(), postItem);
-app.use('/',cors(), patchItem);
-app.use('/',cors(), deleteItem);
+app.use('/', cors(), getItems);
+app.use('/', cors(), patchItem);
+app.use('/', cors(), deleteItem);
+app.use('/', cors(), postItem);
 
 app.listen(PORT, () => {
   console.log(`Server has been started on port ${PORT}`)
