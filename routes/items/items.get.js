@@ -7,7 +7,16 @@ if (!fileSystem('exists')) {
   fileSystem('write', []);
 }
 
-const reqHandler = (filter, order, page) => {
+let showingItems;
+
+const pagination = (page, array) => {
+  const lastItemIndex = page * 5;
+  const firstItemIndex = lastItemIndex - 5;
+  const currentPage = array.slice(firstItemIndex, lastItemIndex);
+  return currentPage;
+}
+
+const reqHandler = (filter, order) => {
   const arrayItems = fileSystem('read');
 
   const compare = (a, b) => {
@@ -20,19 +29,12 @@ const reqHandler = (filter, order, page) => {
     }
   }
 
-  const pagination = (array) => {
-    const lastItemIndex = page * 5;
-    const firstItemIndex = lastItemIndex - 5;
-    const currentPage = array.slice(firstItemIndex, lastItemIndex);
-    return currentPage;
-  }
-
   const filtration = (array) => {
     if (!filter) {
-      return pagination(array);
+      return array;
     }
     const filteredArr = array.filter((item) => { return item.done === (filter === 'done') });
-    return pagination(filteredArr);
+    return filteredArr;
   }
 
   let sortedArr = 
@@ -43,15 +45,15 @@ const reqHandler = (filter, order, page) => {
 
 getItems.get('/', (req, res) => {
   const {filterBy, order, page} = req.query;
-  const resArr = reqHandler(filterBy, order, page);
-  const jsonItem = JSON.stringify(resArr);
+  const resArr = reqHandler(filterBy, order);
+  showingItems = resArr.length.toString();
+  const pagArr = pagination(page, resArr);
+  const jsonItem = JSON.stringify(pagArr);
   res.status(200).send(jsonItem);
 });
 
 getItems.get('/t', (req, res) => {
-  const arrayItems = fileSystem('read');
-  const length = arrayItems.length.toString();
-  res.send(Buffer.from(length));
+  res.send(Buffer.from(showingItems));
 });
 
 module.exports = getItems;
