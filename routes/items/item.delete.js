@@ -5,10 +5,9 @@ const comparingId = require('../../comparing-props');
 const deleteItem = express.Router();
 
 deleteItem.delete('/:id', async (req, res) => {
-    console.log(req);
     const array = fileSystem('read');
     const {id} = req.params;
-    console.log(req.params)
+    console.log(req.params, id)
     try {
       if (!comparingId(id)) {
         throw Error('Task not found');
