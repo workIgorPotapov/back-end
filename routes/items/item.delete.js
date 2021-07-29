@@ -5,6 +5,7 @@ import comparingId from '../../comparing-props.js'
 const deleteItem = express.Router();
 
 deleteItem.delete('/:id', async (req, res) => {
+    console.log(req);
     const array = fileSystem('read');
     const {id} = req.params;
     console.log(req.params)
@@ -17,6 +18,7 @@ deleteItem.delete('/:id', async (req, res) => {
       res.status(204);
     }
     catch(e) {
+      console.log(e)
       res.status(404).send(e.message);
     }
   });
