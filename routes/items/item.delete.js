@@ -4,7 +4,7 @@ const comparingId = require('../../comparing-props');
 
 const deleteItem = express.Router();
 
-deleteItem.delete('/:id', async (req, res) => {
+deleteItem.delete('/:id', (req, res) => {
     const array = fileSystem('read');
     const {id} = req.params;
     console.log(req.params, id)
@@ -13,8 +13,8 @@ deleteItem.delete('/:id', async (req, res) => {
       //   throw Error('Task not found');
       // }
       const removedArray = array.filter((item) => item.uuid !== id);
-      await fileSystem('write', removedArray);
-      res.status(204);
+      fileSystem('write', removedArray);
+      res.sendStatus(204);
     }
     catch(e) {
       console.log(e)

@@ -7,9 +7,9 @@ if (!fileSystem('exists')) {
   fileSystem('write', []);
 }
 
-const arrayItems = fileSystem('read');
-
 const reqHandler = (filter, order, page) => {
+  const arrayItems = fileSystem('read');
+
   const compare = (a, b) => {
     if (a.time < b.time) {
       return -1;
@@ -28,7 +28,7 @@ const reqHandler = (filter, order, page) => {
   }
 
   const filtration = (array) => {
-    if (filter === undefined) {
+    if (!filter) {
       return pagination(array);
     }
     const filteredArr = array.filter((item) => { return item.done === (filter === 'done') });
@@ -41,9 +41,9 @@ const reqHandler = (filter, order, page) => {
   return filtration(sortedArr);
 }
 
-getItems.get('/', async (req, res) => {
+getItems.get('/', (req, res) => {
   const {filterBy, order, page} = req.query;
-  const resArr = await reqHandler(filterBy, order, page);
+  const resArr = reqHandler(filterBy, order, page);
   const jsonItem = JSON.stringify(resArr);
   res.status(200).send(jsonItem);
 });

@@ -18,6 +18,7 @@ postItem.post(
       return;
     }
     try {
+      const array = fileSystem('read');
       const item = req.body;
       console.log(req.body)
       if (comparingName(item)) {
@@ -28,7 +29,8 @@ postItem.post(
       item.createdAt = new Date();
       await array.push(item);
       fileSystem('write', array);
-      res.status(201).send(item);
+      res.sendStatus(201);
+      res.end()
     }
     catch(e) {
       res.status(400).send(e.message);
