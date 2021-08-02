@@ -2,20 +2,21 @@ const fileSystem = require('./file-system');
 
 const comparingId = (id) => {
   const array = fileSystem('read');
-  for (let keys of array) {
-    if (keys.uuid === id) {
-      return false;
-    }
+  if (array.find(item => item.uuid === id)) {
+    return true;
+  }else{
+    return false;
   }
 }
 
 const comparingName = (item) => {
   const array = fileSystem('read');
-  for (let keys of array) {
-    if (keys.name === item.name) {
-      return true;
-    }
+  if (array.find(task => task.name === item.name)) {
+    return true;
+  }else{
+    return false;
   }
 }
 
-module.exports = (comparingId, comparingName)
+exports.comparingId = comparingId;
+exports.comparingName = comparingName;

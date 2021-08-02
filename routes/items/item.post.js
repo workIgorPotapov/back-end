@@ -2,7 +2,8 @@ const express = require('express');
 const fileSystem = require('../../file-system');
 const { v4: uuidv4 } = require('uuid');
 const { body, validationResult } = require('express-validator');
-const comparingName = require('../../comparing-props');
+const { comparingName } = require('../../comparing-props');
+const { BadRequestError } = require('../../errors');
 
 const postItem = express.Router();
 
@@ -19,7 +20,7 @@ postItem.post(
       const array = fileSystem('read');
       const item = req.body;
       if (comparingName(item)) {
-        throw new Error('Item has been already created');
+        throw new BadRequestError;
       }
       item.uuid = uuidv4();
       item.done = false;
