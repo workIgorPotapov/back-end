@@ -6,8 +6,6 @@ const comparingName = require('../../comparing-props');
 
 const postItem = express.Router();
 
-// 123
-
 postItem.post(
   '/',
   body('name').isLength({ min: 2 }).notEmpty(),
