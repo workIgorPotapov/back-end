@@ -31,8 +31,7 @@ postItem.post(
       res.end()
     }
     catch(e) {
-
-      res.status(400).send(e);
+      res.status(400).send([e]);
     }
   });
 
