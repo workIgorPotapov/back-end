@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const { body, validationResult } = require('express-validator');
 const { comparingName } = require('../../comparing-props');
 const { BadRequestError } = require('../../errors');
+const { Sequelize } = require('sequelize');
 
 const postItem = express.Router();
 
