@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
   };
   Item.init({
     name: DataTypes.STRING,
-    uuid: DataTypes.STRING,
+    uuid: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     done: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
