@@ -13,7 +13,7 @@ postItem.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(422).send(errors);
+      res.status(422).send(errors.array());
       return;
     }
     try {
@@ -31,6 +31,7 @@ postItem.post(
       res.end()
     }
     catch(e) {
+
       res.status(400).send(e);
     }
   });

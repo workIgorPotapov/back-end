@@ -3,7 +3,7 @@ class BadRequestError extends Error {
     super(message);
     this.statusCode = 422;
     this.name = 'Bad request';
-    this.message = 'Task has been already created';
+    this.msg = 'Task has been already created';
   }
 }
 
@@ -12,7 +12,7 @@ class NotFoundError extends Error {
     super(message);
     this.statusCode = 404;
     this.name = 'Not found';
-    this.message = 'Task not found';
+    this.msg = 'Task not found';
   }
 }
 
