@@ -1,6 +1,7 @@
 const { json } = require('express');
 const express = require('express');
 const fileSystem = require('../../file-system');
+const {Item}  = require('../../models/index')
 
 const getItems = express.Router();
 
@@ -44,16 +45,17 @@ const reqHandler = (filter, order) => {
   return filtration(sortedArr);
 }
 
-getItems.get('/', (req, res) => {
-  const {filterBy, order, page} = req.query;
-  const resArr = reqHandler(filterBy, order);
-  showingItems = resArr.length.toString();
-  const pagArr = pagination(page, resArr);
-  const result = {
-    pagArr,
-    showingItems,
-  };
-  res.status(200).send(result);
+getItems.get('/', async (req, res) => {
+  // const {filterBy, order, page} = req.query;
+  // const resArr = reqHandler(filterBy, order);
+  // showingItems = resArr.length.toString();
+  // const pagArr = pagination(page, resArr);
+  // const result = {
+  //   pagArr,
+  //   showingItems,
+  // };
+  const items = await Item.findAll();
+  res.status(200).send(items);
 });
 
 module.exports = getItems;

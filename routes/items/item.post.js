@@ -27,7 +27,7 @@ postItem.post(
     try {      
       const task = req.body;      
       console.log(Item);
-      const item = await Item.create({ name: "12323" });    
+      const item = await Item.create({ name: req.body.name });    
       res.status(201).send(item);      
     }
     catch(e) {
