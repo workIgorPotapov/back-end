@@ -1,19 +1,9 @@
 const express = require('express');
-const fileSystem = require('../../file-system');
-const { v4: uuidv4 } = require('uuid');
 const { body, validationResult } = require('express-validator');
-const { comparingName } = require('../../comparing-props');
 const { BadRequestError } = require('../../errors');
-const { Sequelize, DataTypes } = require('sequelize');
-const {Item}  = require('../../models/index')
-
+const { Item }  = require('../../models/index')
 
 const postItem = express.Router();
-
-const sequelize = new Sequelize('database', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'postgres'
-});
 
 postItem.post(
   '/',
@@ -24,14 +14,14 @@ postItem.post(
       res.status(422).send(errors);
       return;
     }
-    try {      
-      const task = req.body;      
-      console.log(Item);
+    try {
+      if (await Item.findOne({ where: {name: req.body.name} })) {
+        throw new BadRequestError;
+      }
       const item = await Item.create({ name: req.body.name });    
       res.status(201).send(item);      
     }
     catch(e) {
-      console.log(e);
       res.status(400).send([e]);
     }
   });

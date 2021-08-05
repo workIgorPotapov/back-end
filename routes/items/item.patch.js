@@ -1,40 +1,28 @@
 const express = require('express');
-const fileSystem = require('../../file-system');
-const comparingId = require('../../comparing-props');
-const {Item}  = require('../../models/index');
+const { Item }  = require('../../models/index');
+const { NotFoundError } = require('../../errors');
 
 const patchItem = express.Router();
 
 patchItem.patch('/:id', async (req, res) => {
-  // const array = fileSystem('read');
   const {id} = req.params;
   try {
-    // if (comparingId(id)) {
-    //   throw Error('Task not found');
-    // }
-    const changedItem = req.body;
+    const { name, done } = req.body;
     const updItem = await Item.findOne({ where: {uuid: id} });
-    if (changedItem.name) {
-      updItem.name = changedItem.name;
+    if (!updItem) {
+      throw new NotFoundError;
     }
-    // const targetItem = array.find(item => item.uuid === id);
-    // for (let key in changedItem) {
-    //   targetItem[key] = changedItem[key];
-    // }
-    // fileSystem('write', array);
-    // res.status(200).send(targetItem);
-
-    // console.log(changedItem)
-    // console.log(updItem)
-    // for (let key in updItem) {
-    //   updItem.dataValues[key] = changedItem[key];
-    // }
+    if (name) {
+      updItem.name = name;
+    }
+    if (done) {
+      updItem.done = done;
+    }
     await updItem.save();
     res.sendStatus(200)
   }
   catch(e) {
-    console.log(e)
-    res.status(404).send(e);
+    res.status(404).send([e]);
   }
 });
 

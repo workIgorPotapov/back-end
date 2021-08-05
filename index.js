@@ -8,8 +8,6 @@ const app = express();
 
 app.use(cors());
 
-// 123
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
