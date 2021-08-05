@@ -11,7 +11,7 @@ postItem.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(422).send(errors);
+      res.status(422).send(errors.array());
       return;
     }
     try {

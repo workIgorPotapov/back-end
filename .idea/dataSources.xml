@@ -8,5 +8,17 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/postgres_sequelize_dev</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="dah6d1878788fn@ec2-54-74-95-84.eu-west-1.compute.amazonaws.com" uuid="ae72a44d-abbf-444f-bf6c-d7d1c5a1c7c7">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-54-74-95-84.eu-west-1.compute.amazonaws.com:5432/dah6d1878788fn</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="ssl" value="true" />
+        <property name="sslmode" value="verify-ca" />
+        <property name="sslfactory" value="org.postgresql.ssl.NonValidatingFactory" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>
