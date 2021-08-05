@@ -8,12 +8,10 @@ const app = express();
 
 app.use(cors());
 
-// 123
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.use('/', cors(), getItems);
 app.use('/', cors(), patchItem);
