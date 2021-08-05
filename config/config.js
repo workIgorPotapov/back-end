@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_URL } = process.env;
+const { DB_HOST, DB_USERNAME, DB_PASSWORD } = process.env;
 
 module.exports = {
   "development": {
@@ -20,7 +20,7 @@ module.exports = {
     "port": 5432,
   },
   "production": {
-    use_env_variable: DB_URL,
+    use_env_variable: "DB_URL",
     dialect: "postgres",
     dialectOptions: {
       ssl: { rejectUnauthorized: false }
