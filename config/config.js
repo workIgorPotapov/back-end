@@ -21,7 +21,7 @@ module.exports = {
     "port": 5432,
   },
   "production": {
-    use_env_variable: "DB_URL",
+    use_env_variable: DB_URL,
     dialectOptions: {
       ssl: { rejectUnauthorized: false }
     },
