@@ -1,7 +1,6 @@
 const express = require('express');
 const { Item }  = require('../../models/index');
 const { NotFoundError } = require('../../errors');
-
 const patchItem = express.Router();
 
 patchItem.patch('/:id', async (req, res) => {
@@ -15,7 +14,7 @@ patchItem.patch('/:id', async (req, res) => {
     if (name) {
       updItem.name = name;
     }
-    if (done) {
+    if (done !== undefined) {
       updItem.done = done;
     }
     await updItem.save();
