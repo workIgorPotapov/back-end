@@ -1,6 +1,6 @@
 const express = require('express');
 const { NotFoundError } = require('../../errors');
-const {Item}  = require('../../models/index')
+const { Item }  = require('../../models/index')
 
 const deleteItem = express.Router();
 
@@ -19,3 +19,5 @@ deleteItem.delete('/:id', async (req, res) => {
     }
     
 });
+
+module.exports = deleteItem;
