@@ -21,11 +21,9 @@ module.exports = {
     "port": 5432,
   },
   "production": {
-    "username": DB_USERNAME,
-    "password": DB_PASSWORD,
-    "database": "postgres_sequelize_prod",
-    "host": DB_HOST,
-    "dialect": "postgres",
-    "port": 5432,
-  }
+    use_env_variable: "DB_URL",
+    dialectOptions: {
+      ssl: { rejectUnauthorized: false }
+    },
+  },
 };

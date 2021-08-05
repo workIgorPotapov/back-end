@@ -11,7 +11,7 @@
     "db:g:migration": "sequelize-cli migration:generate --name",
     "db:g:seed": "sequelize-cli seed:generate --name",
     "db:seeds": "sequelize-cli db:seed:all",
-    "build": "sequelize db:migrate --env production"
+    "build": "sequelize-cli db:migrate --env production"
   },
   "keywords": [],
   "author": "",
